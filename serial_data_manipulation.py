@@ -1,4 +1,4 @@
-from serial_commands_PB7300 import SerialCommands
+from serial_commands_PB7200 import SerialCommands
 import time
 from datetime import datetime
 import utils
