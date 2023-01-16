@@ -3,7 +3,7 @@ import os
 from cal_data import CalData
 import matplotlib.pyplot as plt
 import csv
-from serial_commands_PB7300 import SerialCommands
+from serial_commands_PB7200 import SerialCommands
 import hashlib
 
 fieldnames_dwell = ["Time", "Power"]

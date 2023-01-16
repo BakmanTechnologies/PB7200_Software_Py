@@ -21,7 +21,11 @@ class SerialCommands:
     TEMP_SET_SCALING_CONST_L = 936.96
     TEMP_SET_SCALING_CONST_D = 54.08
 
-    CURRENT_REV5 = 160
+    TEMP_SET_SCALING_CONST_M = 427.36
+    TEMP_SET_SCALING_CONST_B = 35.13
+
+
+    CURRENT_REV2 = 213.33
 
     COM_PORT = "COM0"
 
@@ -38,7 +42,7 @@ class SerialCommands:
 
             # Opens serial port with set properties
             self.PB7300COMPort.port = com_select
-            self.PB7300COMPort.baudrate = 115200
+            self.PB7300COMPort.baudrate = 56000
             self.PB7300COMPort.parity = PARITY_NONE
             self.PB7300COMPort.bytesize = EIGHTBITS
             self.PB7300COMPort.stopbits = STOPBITS_ONE
@@ -74,7 +78,7 @@ class SerialCommands:
         # send the characterS to the device
         self.PB7300COMPort.write(tx_bytes)
 
-        time.sleep(0.001)
+        time.sleep(0.005)
 
         while self.PB7300COMPort.in_waiting > 0:
             # Reading Bytes
@@ -139,7 +143,7 @@ class SerialCommands:
             set_temp = 65
 
         temp_scaled = int(
-            (set_temp * self.TEMP_SET_SCALING_CONST_L)+self.TEMP_SET_SCALING_CONST_D)
+            (set_temp + self.TEMP_SET_SCALING_CONST_B)*self.TEMP_SET_SCALING_CONST_M)
 
         temp_hex = hex(temp_scaled)
 
@@ -193,7 +197,7 @@ class SerialCommands:
             set_temp = 65
 
         temp_scaled = int(
-            (set_temp * self.TEMP_SET_SCALING_CONST_L)+self.TEMP_SET_SCALING_CONST_D)
+            (set_temp + self.TEMP_SET_SCALING_CONST_B)*self.TEMP_SET_SCALING_CONST_M)
 
         temp_hex = hex(temp_scaled)
 
@@ -649,7 +653,7 @@ class SerialCommands:
         temp_1_lsb_decimal_float = float(temp_1_lsb_decimal)
 
         temp_1_full_decimal_unscaled = (
-            (((((2**8) * temp_1_msb_decimal_float)+temp_1_lsb_decimal_float)-self.TEMP_READ_SCALING_CONST_N)) / self.TEMP_READ_SCALING_CONST_C)
+            (((((2**8) * temp_1_msb_decimal_float)+temp_1_lsb_decimal_float)/self.TEMP_SET_SCALING_CONST_M)) - self.TEMP_SET_SCALING_CONST_B)
 
         # laser 2
 
@@ -662,7 +666,7 @@ class SerialCommands:
         temp_2_lsb_decimal_float = float(temp_2_lsb_decimal)
 
         temp_2_full_decimal_unscaled = (
-            (((((2**8) * temp_2_msb_decimal_float)+temp_2_lsb_decimal_float)-self.TEMP_READ_SCALING_CONST_N)) / self.TEMP_READ_SCALING_CONST_C)
+            (((((2**8) * temp_2_msb_decimal_float)+temp_2_lsb_decimal_float)/self.TEMP_SET_SCALING_CONST_M)) - self.TEMP_SET_SCALING_CONST_B)
 
         return lock_in_full_decimal_scaled, temp_1_full_decimal_unscaled, temp_2_full_decimal_unscaled
 
@@ -671,7 +675,7 @@ class SerialCommands:
     def set_LD0_Power(self, set_power):
         """Sets the LD0 power"""
 
-        temp_scaled = int(set_power * self.CURRENT_REV5)
+        temp_scaled = int(set_power * self.CURRENT_REV2)
 
         temp_hex = hex(temp_scaled)
 
@@ -712,15 +716,12 @@ class SerialCommands:
 
         current_1_lsb_decimal_float = float(current_1_lsb_decimal)
 
-        current_1_full_decimal_unscaled = (
-            (((2**8) * current_1_msb_decimal_float)+current_1_lsb_decimal_float)/self.CURRENT_REV5)
-
     def set_LD1_Power(self, set_power):
         """Sets the LD1 power"""
 
         #TEST_CURRENT = 100
 
-        temp_scaled = int(set_power * self.CURRENT_REV5)
+        temp_scaled = int(set_power * self.CURRENT_REV2)
 
         temp_hex = hex(temp_scaled)
 
@@ -762,9 +763,6 @@ class SerialCommands:
             current_2_lsb_hex)
 
         current_2_lsb_decimal_float = float(current_2_lsb_decimal)
-
-        current_2_full_decimal_unscaled = (
-            (((2**8) * current_2_msb_decimal_float)+current_2_lsb_decimal_float)/self.CURRENT_REV5)
 
     # TEC control ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -893,6 +891,22 @@ class SerialCommands:
 
         pcs_current_full_decimal_unscaled = (
             ((((2**8) * pcs_current_msb_decimal_float)+pcs_current_lsb_decimal_float)/32))
+    
+
+    def PCS_TEC_BIAS_control(self, TEC, PCS, LSR1, LSR2):
+        """Enables the TEC, PCS, Laser Biases"""
+
+        hex_list = []
+        hex_list.append("AA")
+        hex_list.append("90")
+        hex_list.append("00")
+        hex_list.append("00")
+        hex_list.append("00")
+        hex_list.append("00")
+
+        tx_bytes = self.build_tx_bytes(hex_list)
+
+        PCS_enable_command = self.write_serial(tx_bytes)
 
     # Laser Bias Control ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
