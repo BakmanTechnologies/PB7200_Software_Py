@@ -42,7 +42,7 @@ class SerialCommands:
 
             # Opens serial port with set properties
             self.PB7300COMPort.port = com_select
-            self.PB7300COMPort.baudrate = 56000
+            self.PB7300COMPort.baudrate = 57600
             self.PB7300COMPort.parity = PARITY_NONE
             self.PB7300COMPort.bytesize = EIGHTBITS
             self.PB7300COMPort.stopbits = STOPBITS_ONE
@@ -78,7 +78,7 @@ class SerialCommands:
         # send the characterS to the device
         self.PB7300COMPort.write(tx_bytes)
 
-        time.sleep(0.005)
+        time.sleep(0.025)
 
         while self.PB7300COMPort.in_waiting > 0:
             # Reading Bytes
