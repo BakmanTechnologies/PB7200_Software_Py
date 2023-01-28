@@ -78,7 +78,7 @@ class SerialCommands:
         # send the characterS to the device
         self.PB7300COMPort.write(tx_bytes)
 
-        time.sleep(0.025)
+        time.sleep(0.01)
 
         while self.PB7300COMPort.in_waiting > 0:
             # Reading Bytes
@@ -558,7 +558,7 @@ class SerialCommands:
         hex_list.append("00")
         hex_list.append("00")
         hex_list.append("00")
-        hex_list.append(mode_1)
+        hex_list.append(mode_2)
 
         tx_bytes = self.build_tx_bytes(hex_list)
 
