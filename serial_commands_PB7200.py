@@ -639,8 +639,7 @@ class SerialCommands:
         # Bit shifting required for processing MSBs and LSBs
         lock_in_full_decimal_unscaled = (np.int32(unsigned_list[2]) << 24) | (np.int32(unsigned_list[3]) << 16) | (np.int32(unsigned_list[4]) << 8) | (np.int32(unsigned_list[5]))
 
-        # Value is scaled by X16 to undo firmware scaling
-        lock_in_full_decimal_scaled = float(lock_in_full_decimal_unscaled)*16
+        lock_in_full_decimal_scaled = float(lock_in_full_decimal_unscaled)
 
         # laser 1
 
