@@ -554,11 +554,11 @@ class SerialCommands:
 
         hex_list = []
         hex_list.append("AA")
+        hex_list.append("49")
         hex_list.append("00")
         hex_list.append("00")
         hex_list.append("00")
-        hex_list.append("00")
-        hex_list.append(mode_2)
+        hex_list.append(mode_1)
 
         tx_bytes = self.build_tx_bytes(hex_list)
 
