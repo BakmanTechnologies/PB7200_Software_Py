@@ -142,9 +142,11 @@ def simple_scan_graph(x, y):
     plt.xlabel('Frequency (GHz)')
     plt.ylabel('Power (arb)')
 
+    z = max(x)
+
     plt.xlim(x[0], x[-1])
     plt.ylim(10e-2, 10e9)
-    plt.axis([x[0], x[-1], 10e-2, 10e8])
+    plt.axis([x[0], z, 10e-2, 10e8])
     plt.show()
 
 def create_csv_file(file_name):
