@@ -91,15 +91,8 @@ stop_freq_ghz: Frequency in GHz to stop the scan at.
 
 step_size_ghz: Step size between each reading of the scan in GHz. Supports decimal values.
 
-time_constant_ms: Speed at which the values are going to be read from the PB7200 in miliseconds. (100 ms recommended) Lowering it under 50ms risks encountering com port errors.
+time_constant_ms: Speed at which the values are going to be read from the PB7200 in miliseconds. (100 ms recommended) Running it under 50ms risks encountering com port errors.
 
-
-Phase Modulation
-
-`scan_pm()`
-`dwell_pm()`
-
-These funcions work the same as their non modulated counterparts they simply turn on the phase modulation in the PB7200 before it starts to operate.
 
 ## Usage
 The script can be run on its own by using the main.py included in the repo, the first time running the script main should look like this:
@@ -128,5 +121,3 @@ These are the errors expected from COM port speed issues, or communication hitch
 rx_bytes referenced before assignment.
 
 AttributeError: 'NoneType' object has no attribute 'hex'
-
-There seems to be a component of magic involved in serial communication that I do not possess knowledge of, so please bear that in mind if you have difficulty with this aspect of the code. 
