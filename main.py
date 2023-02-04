@@ -8,7 +8,7 @@ def main():
     serial_data_manipulation = SerialDataManipulation(cal_data)
     serial_data_manipulation.display_system_info()
     # serial_data_manipulation.dwell(200, 100, 100)
-    # serial_data_manipulation.scan(200, 600, 1, 100)
+    # serial_data_manipulation.scan(200, 400, 1, 100)
     serial_data_manipulation.close_port()
 
 
