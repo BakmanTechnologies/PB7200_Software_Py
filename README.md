@@ -1,11 +1,11 @@
 
-# PB7300 Control Software
+# PB7200 Control Software
 Created for Bakman Technologies by Ricardo Franco
 ## Requirements
 
 * Windows 10
 * Python 3.8.xx
-* PB7300 Spectrometer Rev5+
+* PB7200 Spectrometer Rev5+
 
 
 ## Installation
@@ -24,27 +24,27 @@ Created for Bakman Technologies by Ricardo Franco
 
 
 ## Overview
-This program is designed to talk to the PB7300 instrument through a serial port.
+This program is designed to talk to the PB7200 instrument through a serial port.
 
-When running for the first time the software will check if the /calibration and /data directories exists, if not it will create them in the base directory /PB7300_Software_Py 
+When running for the first time the software will check if the /calibration and /data directories exists, if not it will create them in the base directory /PB7200_Software_Py 
 
 The software will look in /calibration for the factory calibration file, if empty it will extract the calibration from the EEPROM memory and save it in /calibration.
 
-The software needs this calibration file in order to run. Modifying this file is heavily discouraged as it contains vital information for running the PB7300 Spectrometer. Any change to the values in this file may affect the performance and may even risk damaging the lasers permanently
+The software needs this calibration file in order to run. Modifying this file is heavily discouraged as it contains vital information for running the PB7200 Spectrometer. Any change to the values in this file may affect the performance and may even risk damaging the lasers permanently
 
-If at any point the script encounters an error, or the serial communication fails, please turn off the PB7300 THz Spectrometer by switching off the power button and resetting it. This is to prevent any potential damage to the lasers if the remain stuck on a temperature for prolonged periods of time. 
+If at any point the script encounters an error, or the serial communication fails, please turn off the PB7200 THz Spectrometer by switching off the power button and resetting it. This is to prevent any potential damage to the lasers if the remain stuck on a temperature for prolonged periods of time. 
 
 
 ## Setup
 
-Turn on the PB7300 and connect to it using the USB-B to USB-A cable.
+Turn on the PB7200 and connect to it using the USB-B to USB-A cable.
 
 COM Port Setup (Windows):
 
 1. Open Windows Device Manager and look for the Ports (COM & LPT) section.
 ![mmc_KJy5jJBwH0](https://user-images.githubusercontent.com/86385396/197352945-67bbbd13-b5cb-4ddc-b6ff-3d5b4cf9f918.png)
 
-2. Right click on the corresponing com port for the PB7300 and select properties, in this case its COM5. If you are not sure which COM port corresponds to the PB7300 you can turn it off and check the device manager again to see which COM port is missing. Navigate to the Port Settings tab and change the Bits per second to 115200.
+2. Right click on the corresponing com port for the PB7200 and select properties, in this case its COM5. If you are not sure which COM port corresponds to the PB7200 you can turn it off and check the device manager again to see which COM port is missing. Navigate to the Port Settings tab and change the Bits per second to 115200.
 
 ![mmc_5irggirXga](https://user-images.githubusercontent.com/86385396/197353813-4b91a908-f4ab-416b-bb2f-5a448b68a590.png)
 
@@ -53,11 +53,11 @@ COM Port Setup (Windows):
 ![mmc_L9YtIR7WJh](https://user-images.githubusercontent.com/86385396/197355917-986ab906-2e8e-4213-a03c-74aa8aee6309.png)
 
 ## Description:
-`serial_commands_PB7300.py:`
-Contains the command list to operate the PB7300 Rev5. Modifying this file is highly discouraged as it can affect the performance of the spectrometer and potentially damage the lasers.
+`serial_commands_PB7200.py:`
+Contains the command list to operate the PB7200 Rev5. Modifying this file is highly discouraged as it can affect the performance of the spectrometer and potentially damage the lasers.
 
 `serial_data_manipulation.py:`
-Contains the main functions to use the PB7300, requires an instance of a populated cal_data to be passed as an argument to be used.
+Contains the main functions to use the PB7200, requires an instance of a populated cal_data to be passed as an argument to be used.
 
 `cal_data.py:`
 Contains python class to be populated by deserialized json values. Modifying this file is highly discouraged as it can affect the performance of the spectrometer and potentially damage the lasers.
@@ -74,7 +74,7 @@ Sets a target frequency in GHz and mantains it for a given amount of data points
 
 target_ghz: Frequency at which the system will reach and mantain.
 
-time_constant: Speed at which the values are going to be read from the PB7300 in miliseconds. (100 ms recommended) Lowering it under 50ms risks encountering com port errors.
+time_constant: Speed at which the values are going to be read from the PB7200 in miliseconds. (100 ms recommended) Lowering it under 50ms risks encountering com port errors.
 
 number_of_data_points: Amount of data points to be saved, dwell ends when value is reached.
 
@@ -91,7 +91,7 @@ stop_freq_ghz: Frequency in GHz to stop the scan at.
 
 step_size_ghz: Step size between each reading of the scan in GHz. Supports decimal values.
 
-time_constant_ms: Speed at which the values are going to be read from the PB7300 in miliseconds. (100 ms recommended) Lowering it under 50ms risks encountering com port errors.
+time_constant_ms: Speed at which the values are going to be read from the PB7200 in miliseconds. (100 ms recommended) Lowering it under 50ms risks encountering com port errors.
 
 
 Phase Modulation
@@ -99,7 +99,7 @@ Phase Modulation
 `scan_pm()`
 `dwell_pm()`
 
-These funcions work the same as their non modulated counterparts they simply turn on the phase modulation in the PB7300 before it starts to operate.
+These funcions work the same as their non modulated counterparts they simply turn on the phase modulation in the PB7200 before it starts to operate.
 
 ## Usage
 The script can be run on its own by using the main.py included in the repo, the first time running the script main should look like this:
@@ -119,9 +119,9 @@ Just uncomment one of the main functions and replace the example values with the
 
 
 ## Troubleshooting:
-Due to the nature of serial communication most of the errors encountered during script operation can be attributed to the communication speed on the COM port. The COM port settings above MUST be used for proper operation of the PB7300 using the python script. 
+Due to the nature of serial communication most of the errors encountered during script operation can be attributed to the communication speed on the COM port. The COM port settings above MUST be used for proper operation of the PB7200 using the python script. 
 
-In serial_commands_PB7300.py line 28 contains a constant READ_WRITE_DELAY, this can be changed to allow time for the returning bytes to be read if the com port is having speed issues. Small increments should be made as the effect is over the entire com port pipeline. Add 0.005 seconds until communication stabilizes. The higher the wait time the longer the script will take to execute.
+In serial_commands_PB7200.py line 28 contains a constant READ_WRITE_DELAY, this can be changed to allow time for the returning bytes to be read if the com port is having speed issues. Small increments should be made as the effect is over the entire com port pipeline. Add 0.005 seconds until communication stabilizes. The higher the wait time the longer the script will take to execute.
 
 These are the errors expected from COM port speed issues, or communication hitched.
 

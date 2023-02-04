@@ -14,7 +14,7 @@ class SerialCommands:
     # Any change to the commands in this file may affect the performance
     # of the spectrometer and risk damaging the lasers permanently.
 
-    PB7300COMPort = serial.Serial()
+    PB7200COMPort = serial.Serial()
     TEMP_READ_SCALING_CONST_N = 1411.3
     TEMP_READ_SCALING_CONST_C = 924.023
 
@@ -30,7 +30,7 @@ class SerialCommands:
     COM_PORT = "COM0"
 
     def __init__(self):
-        if self.PB7300COMPort.is_open:
+        if self.PB7200COMPort.is_open:
             pass
         else:
             PORTS = list(ports.comports())
@@ -41,16 +41,16 @@ class SerialCommands:
             com_select = input("Specify COM port selection: ")
 
             # Opens serial port with set properties
-            self.PB7300COMPort.port = com_select
-            self.PB7300COMPort.baudrate = 57600
-            self.PB7300COMPort.parity = PARITY_NONE
-            self.PB7300COMPort.bytesize = EIGHTBITS
-            self.PB7300COMPort.stopbits = STOPBITS_ONE
-            self.PB7300COMPort.rtscts = True
-            self.PB7300COMPort.write_timeout = 10
+            self.PB7200COMPort.port = com_select
+            self.PB7200COMPort.baudrate = 57600
+            self.PB7200COMPort.parity = PARITY_NONE
+            self.PB7200COMPort.bytesize = EIGHTBITS
+            self.PB7200COMPort.stopbits = STOPBITS_ONE
+            self.PB7200COMPort.rtscts = True
+            self.PB7200COMPort.write_timeout = 10
 
             try:
-                self.PB7300COMPort.open()
+                self.PB7200COMPort.open()
                 print("Succeded in opening PB7300 port")
             except serial.SerialException as e:
                 print("Failed to open port", e)
@@ -73,16 +73,16 @@ class SerialCommands:
     def write_serial(self, tx_bytes):
         """Function recieves tx_bytes list to send, returns rxBytes bytearray"""
 
-        self.PB7300COMPort.reset_input_buffer()
+        self.PB7200COMPort.reset_input_buffer()
 
         # send the characterS to the device
-        self.PB7300COMPort.write(tx_bytes)
+        self.PB7200COMPort.write(tx_bytes)
 
         time.sleep(0.01)
 
-        while self.PB7300COMPort.in_waiting > 0:
+        while self.PB7200COMPort.in_waiting > 0:
             # Reading Bytes
-            rx_bytes = self.PB7300COMPort.read(10)
+            rx_bytes = self.PB7200COMPort.read(10)
         try:
             return rx_bytes
         except UnboundLocalError as ex:
@@ -93,7 +93,7 @@ class SerialCommands:
 
     def close_port(self):
         """Closes com port at end of program"""
-        self.PB7300COMPort.close()
+        self.PB7200COMPort.close()
 
     def convert_hex_and_split_bytes(self, unsplit):
         """Converts bytes to hex list"""

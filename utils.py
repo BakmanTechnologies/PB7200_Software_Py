@@ -121,7 +121,7 @@ def simple_dwell_graph(x, y):
     plt.style.use('fivethirtyeight')
     plt.yscale('log')
 
-    plt.title('PB7300 Dwell')
+    plt.title('PB7200 Dwell')
     plt.xlabel('Time (s)')
     plt.ylabel('Power (arb)')
 
@@ -138,7 +138,7 @@ def simple_scan_graph(x, y):
     plt.style.use('fivethirtyeight')
     plt.yscale('log')
 
-    plt.title('PB7300 Scan')
+    plt.title('PB7200 Scan')
     plt.xlabel('Frequency (GHz)')
     plt.ylabel('Power (arb)')
 
