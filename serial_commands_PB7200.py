@@ -10,7 +10,7 @@ class SerialCommands:
     """Class containing serial port commands"""
     # WARNING! POTENTIAL LASER DAMAGE
     # Modifying this file is heavily discouraged as it contains vital
-    # commands for running the PB7300 Spectrometer.
+    # commands for running the PB7200 Spectrometer.
     # Any change to the commands in this file may affect the performance
     # of the spectrometer and risk damaging the lasers permanently.
 

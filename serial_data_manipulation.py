@@ -219,11 +219,7 @@ class SerialDataManipulation():
 
             print("Time Stamp: ", elapsed_time)
 
-            print("Temps Read: ", temp_read_ld0, temp_read_ld1)
-
             count, lockin_2nd = self.serial_commands_class.read_sample_count_second_lockin_output()
-
-            print("Lock in sample count: ", count)
 
             normalize_1, normalize_2 = self.normalize_lockin_dwell(
                 count, lockin_1st, lockin_2nd)
@@ -231,7 +227,6 @@ class SerialDataManipulation():
             true_ghz = self.calculate_freq_using_poly(temp_read_ld0, temp_read_ld1)
 
             dwell_normalized.append(normalize_1)
-            print("Lockin normalized:", normalize_1)
             # temps_read_ld0.append(temp_read_ld0)
             # temps_read_ld1.append(temp_read_ld1)
             time_table.append(elapsed_time)
